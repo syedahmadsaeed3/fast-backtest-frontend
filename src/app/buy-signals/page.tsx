@@ -387,6 +387,26 @@ export default function BuySignalsPage() {
       style={{ backgroundColor: '#000814', color: '#ffffff' }}
     >
       <div className="w-full max-w-6xl">
+        {/* Back Navigation */}
+        <div className="mb-6">
+          <button
+            onClick={() => router.push('/search')}
+            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg font-medium transition-colors hover:bg-[#005f73] bg-[rgba(255,255,255,0.1)]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Search
+          </button>
+        </div>
+        
         <h1 className="text-3xl font-bold mb-4 text-white">Define Buy Strategy</h1>
 
         {/* Ticker / Days header */}

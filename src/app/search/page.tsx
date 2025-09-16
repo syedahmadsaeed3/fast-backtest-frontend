@@ -109,74 +109,78 @@ export default function SearchPage() {
       <h1 className="text-3xl font-bold mb-6">Search Tickers</h1>
 
       {/* Search bar, days input, fetch button */}
-      <div className="relative w-full max-w-4xl flex flex-col md:flex-row md:items-center md:justify-center gap-3">
-        {/* Search bar */}
-        <div className="w-full max-w-md relative" ref={containerRef}>
-          <input
-            type="text"
-            placeholder="Enter ticker symbol (e.g. AAPL)"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-[#240046] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+      <div className="relative w-full max-w-4xl">
+        {/* Main search controls row */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-center gap-4 mb-4">
+          {/* Search bar */}
+          <div className="w-full max-w-md relative" ref={containerRef}>
+            <label className="text-sm text-gray-300 mb-1 block">Ticker Symbol</label>
+            <input
+              type="text"
+              placeholder="Enter ticker symbol (e.g. AAPL)"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg bg-[#240046] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
 
-          {/* Dropdown */}
-          {query && results.length > 0 && (
-            <ul className="absolute w-full bg-[#240046] border border-blue-500 rounded-lg mt-1 max-h-60 overflow-auto z-10">
-              {results.map((item: any, idx) => {
-                // expecting {symbol, company_name}
-                const symbol = item.symbol || item.ticker || item;
-                const companyName = item.company_name || '';
-                return (
-                  <li
-                    key={idx}
-                    onClick={() => handleSelect(symbol)}
-                    className="px-4 py-2 hover:bg-blue-500 cursor-pointer flex flex-col"
-                  >
-                    <span className="font-semibold">{symbol}</span>
-                    {companyName && (
-                      <span className="text-sm text-gray-300">{companyName}</span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
+            {/* Dropdown */}
+            {query && results.length > 0 && (
+              <ul className="absolute w-full bg-[#240046] border border-blue-500 rounded-lg mt-1 max-h-60 overflow-auto z-10">
+                {results.map((item: any, idx) => {
+                  // expecting {symbol, company_name}
+                  const symbol = item.symbol || item.ticker || item;
+                  const companyName = item.company_name || '';
+                  return (
+                    <li
+                      key={idx}
+                      onClick={() => handleSelect(symbol)}
+                      className="px-4 py-2 hover:bg-blue-500 cursor-pointer flex flex-col"
+                    >
+                      <span className="font-semibold">{symbol}</span>
+                      {companyName && (
+                        <span className="text-sm text-gray-300">{companyName}</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
 
-          {loading && (
-            <div className="absolute right-4 top-3 text-sm text-gray-300">
-              Loading...
-            </div>
-          )}
+            {loading && (
+              <div className="absolute right-4 top-9 text-sm text-gray-300">
+                Loading...
+              </div>
+            )}
+          </div>
+
+          {/* Days input */}
+          <div className="flex flex-col">
+            <label className="text-sm text-gray-300 mb-1">Days</label>
+            <input
+              type="number"
+              min={1}
+              value={days}
+              onChange={(e) => setDays(Number(e.target.value))}
+              className="px-4 py-3 rounded-lg bg-[#240046] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-28"
+            />
+          </div>
+
+          {/* Fetch Data Button */}
+          <button
+            onClick={() => query && fetchTickerDetails(query, days)}
+            className="px-5 py-3 rounded-lg font-semibold shadow-md whitespace-nowrap"
+            style={{ backgroundColor: '#9d4edd', color: '#10002b' }}
+          >
+            Fetch Data
+          </button>
         </div>
 
-        {/* Days input */}
-        <div className="flex flex-col">
-          <label className="text-sm text-gray-300 mb-1">Days</label>
-          <input
-            type="number"
-            min={1}
-            value={days}
-            onChange={(e) => setDays(Number(e.target.value))}
-            className="px-4 py-3 rounded-lg bg-[#240046] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-28"
-          />
-        </div>
-
-        {/* Fetch Data Button */}
-        <button
-          onClick={() => query && fetchTickerDetails(query, days)}
-          className="px-5 py-3 rounded-lg font-semibold shadow-md mt-2 md:mt-6 md:self-end"
-          style={{ backgroundColor: '#9d4edd', color: '#10002b' }}
-        >
-          Fetch Data
-        </button>
-
-        {/* Proceed Button with delay */}
+        {/* Proceed Button with delay - centered */}
         {showProceed && (
-          <div className="md:ml-4 mt-4 md:mt-6">
+          <div className="flex justify-center">
             <Link href="/buy-signals">
               <button
-                className="flex items-center gap-2 px-4 py-2 text-sm rounded-full font-medium animate-bounce shadow-md"
+                className="flex items-center gap-2 px-6 py-3 text-sm rounded-full font-medium animate-bounce shadow-md"
                 style={{ backgroundColor: '#9d4edd', color: '#10002b' }}
               >
                 Proceed to strategy definition
